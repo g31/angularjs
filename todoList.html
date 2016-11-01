@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html ng-app="todoApp">
+  <head>
+  <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css">
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">-->
+    <script type="text/javascript" src="angular.min.js"></script>
+    <script type="text/javascript" src="todoList.js"></script>
+
+    <style type="text/css">
+      .inputBox{
+      margin-left:8px;
+      width:300px;
+    }
+    .taskList {
+      padding-left: 5px;
+    }
+
+    .taskList li {
+      list-style-type: none;
+    }
+
+    .taskDone {
+      margin-right: 10px;
+      margin-top: 3px;
+    }
+
+    .done {
+      text-decoration: line-through;
+      color: red;
+    }
+    </style>
+  </head>
+  <body>
+      <section ng-controller="nameCtrl">
+        <h1>Name Application</h1>
+        <input type="text" placeholder="First" ng-model="firstName">
+        <input type="text" placeholder="Last" ng-model="lastName">
+
+        <div ng-bind="fullName">Full Name</div>
+        <div ng-bind="charCount">Character Count</div>
+      </section>
+
+      <section ng-controller="todoCtrl">
+        <h1>Sweety's ToDo Application</h1>
+
+        <form ng-submit="add()">
+          <input  class="inputBox" type="text" placeholder="What do you want to do?" ng-model="todoInput">
+          <input class="btn btn-primary" type="submit" value="Add">
+        </form>
+
+        <ul class="list-group">
+          <li class="list-group-item" ng-repeat="todo in todoList">
+            <input class="taskDone" type="checkbox" ng-model="todo.done">
+
+            <span ng-hide="todo.editing">
+              <span ng-class="{done: todo.done}" >{{todo.task}}</span>
+              <input class="btn btn-warning btn-sm" type="button" value="Edit" ng-click="edit(todo)">
+              <input class="btn btn-danger btn-sm" type="button" value="Delete" ng-click="remove($index)">
+            </span>
+
+            <span ng-show="todo.editing">
+              <input ng-model="todo.task">
+              <input class="btn btn-success" type="button" value="Save" ng-click="editSave(todo)">
+              <input class="btn btn-danger" type="button" value="Cancel" ng-click="editCancel(todo)">
+            </span>
+          </li>
+        </ul>
+
+        <article>
+          <h4>
+          <span class="badge">{{countDone2}} task(s) completed.</span>
+          <button class="btn-warning"><span class="badge">{{countRem2}} </span> task(s) remaining.</button>
+             <!--{{countDone()}} task(s) done.
+          {{countRem()}} task(s) remaining.-->
+          <input class="btn btn-danger btn-sm" type="button" value="Remove All Completed" ng-click="removeCompleted()" ng-show="countDone2 > 1">
+          </h4>
+        </article>
+      </section>
+  </body>
+</html>
